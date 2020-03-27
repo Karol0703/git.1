@@ -1,0 +1,65 @@
+#include <sstream>
+#include <string>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class ppzamien{
+       ifstream plik1;
+       ofstream plik2;
+public:				
+      ppzamien();
+	  ~ppzamien();
+      void palindrom();        
+};
+
+ppzamien::ppzamien(){ 
+    plik1.open("c:\\jeden.txt");
+    plik2.open("c:\\dwa.txt");
+}
+
+void ppzamien::palindrom(){
+    string pal; string s(), slowo, polacz("");
+		
+    while(!plik1.eof()){ 
+    getline(plik1,pal);
+        
+    for(int i = 0; i<pal.length(); i++){
+  	if(pal[i]>64&&pal[i]<91)
+    pal[i] += 32;           
+    } 
+   stringstream ss(pal);
+   while(ss >> slowo) 
+   polacz += slowo; 
+        
+   int end = polacz.length()-1; 
+   bool isPalindrome = true; 
+   string oR;
+        
+   for (int i=0; i<polacz.length()/2 && isPalindrome; i++) 
+   if (polacz[i] != polacz[end--]) 
+   isPalindrome = false;
+        
+        if(isPalindrome)
+            oR = "Jest Palindromem";
+	else
+	    oR = "Nie jest";      
+       plik2<<"{\"string\":"<<"\""<<polacz<<"\""<<","<<"\"palindrom\":"<<"\""<<oR<<"\"},"<<"    ";      
+        polacz="";                  
+    }
+}
+
+
+ppzamien::~ppzamien(){
+    plik1.close();
+    plik2.close();
+}
+
+int main() {
+    ppzamien change; 
+    change.palindrom(); 
+    
+    
+    return 0;
+}
